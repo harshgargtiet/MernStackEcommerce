@@ -8,10 +8,7 @@ const connectDatabase =()=>{
             console.log(`MongoDB connected with server : ${data.connection.host}`);
 
         }
-    ).catch((err)=>
-    {
-        console.log(err)
-    })
+    )
 }
 
 module.exports=connectDatabase
