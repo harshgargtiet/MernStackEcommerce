@@ -27,16 +27,17 @@ exports.loginUser=catchAsyncErrors( async(req,res,next)=>{
     const user=await User.findOne({email}).select("+password");
 
     if(!user){
-        return next(new ErrorHandler("Invalid Email or Password"));
+        return next(new ErrorHandler("Invalid Email or Password",401));
     }
-    const isPasswordMatched=user.comparePassword(password);
+    const isPasswordMatched = await user.comparePassword(password);
 
     if(!isPasswordMatched){
         return next(new ErrorHandler("Invalid Email or Password",401));
     }
     const token = user.getJWTToken();
+    
     res.status(200).json({
    success: true ,
-   token,
+   token
     });
 })
