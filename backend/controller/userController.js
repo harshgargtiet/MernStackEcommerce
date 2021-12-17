@@ -1,6 +1,7 @@
 const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncErrors=require("../middleware/catchAsyncErrors");
 const User =require("../models/userModel");
+const sendToken = require("../utils/jwtToken");
 
 exports.registerUser=catchAsyncErrors(async(req,res,next)=>{
     const {name,email,password} =req.body ;
@@ -12,11 +13,7 @@ exports.registerUser=catchAsyncErrors(async(req,res,next)=>{
         }
     });
 
-    const token = user.getJWTToken();
-    res.status(201).json({
-   success: true ,
-   token,
-    });
+   sendToken(user,201,res);
 });
 
 exports.loginUser=catchAsyncErrors( async(req,res,next)=>{
@@ -34,10 +31,20 @@ exports.loginUser=catchAsyncErrors( async(req,res,next)=>{
     if(!isPasswordMatched){
         return next(new ErrorHandler("Invalid Email or Password",401));
     }
-    const token = user.getJWTToken();
-    
+  sendToken(user,200,res);
+});
+
+
+//logout
+exports.logout =catchAsyncErrors(async (req,res,next)=>{
+    res.cookie("token",null,{
+        expires:new Date(Date.now()),
+        httpOnly    : true 
+    })
+
+
     res.status(200).json({
-   success: true ,
-   token
+        success:true,
+        message : "Logged Out"
     });
 })
