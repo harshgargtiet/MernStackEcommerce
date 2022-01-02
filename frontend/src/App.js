@@ -44,8 +44,8 @@ webFont.load({
       
        <Header/>
       <Routes> 
-      <Route path="/" element={<Home/>}/>
-      <Route path="/product/:id" element={<ProductDetails/>}/>
+      <Route  path="/" element={<Home/>}/>
+      <Route exact path="/product/:id" element={<ProductDetails />}/>
       </Routes> 
       <Footer/>
     </Router>  

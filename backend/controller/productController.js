@@ -17,8 +17,8 @@ exports.createProduct=catchAsyncErrors(async (req,res,next)=>{
 
 // Get All Products 
 exports.getAllProducts= catchAsyncErrors(async (req,res)=>
-{    const resultPerPage = 2; 
-    const productCount =await Product.countDocuments();
+{    const resultPerPage = 5; 
+    const productsCount =await Product.countDocuments();
 
     const apiFeature =new ApiFeatures( Product.find() , req.query)
     .search()
@@ -28,9 +28,9 @@ exports.getAllProducts= catchAsyncErrors(async (req,res)=>
 
     // const products = await  Product.find(); //passed above 
     res.status(200).json({
-        success: true ,
+        success: true , 
         products,  
-        productCount,
+        productsCount,
         message :"Route is working fine"});
 }
 )
